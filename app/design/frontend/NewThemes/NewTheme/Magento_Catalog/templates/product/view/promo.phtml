@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Product view template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View
+ */
+?>
+<?php $_helper = $this->helper(Magento\Catalog\Helper\Output::class); ?>
+<?php $_product = $block->getProduct(); ?>
+<?php $blockId = 'promo_block';
+
+$productId = (int) $block->getRequest()->getParam('id'); //Product Id
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
+$imageHelper  = $objectManager->get('\Magento\Catalog\Helper\Image');
+$store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+$html = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml();
+?>
+
+<?php $buttonTitle = __('Add to Cart'); ?>
+
+<div class="promo_block_container">
+    <div class="promo_block_container-wrapper">
+        <div class="promo_block_container-content">
+            <img class="promo_block_container-image" src="<?= $imageHelper->init($product, 'product_page_image_small')
+                                                                ->setImageFile($product->getSmallImage())
+                                                                ->resize(80)
+                                                                ->getUrl();
+                                                            ?>" alt="<?= $product->getName() ?>" />
+            <strong class="promo_block_container-name"><?= $product->getName() ?></strong>
+            <span class="price-container">
+                <?= $formattedPrice = $priceHelper->currency($product->getFinalPrice(), true, false); ?>
+            </span>
+            <div class="box-tocart">
+                <div class="fieldset">
+                    <div class="actions">
+                        <button type="submit" title="<?= /* @escapeNotVerified */ $buttonTitle ?>" class="action primary tocart" id="product-addtocart-button" disabled>
+                            <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                        </button>
+                        <?= $block->getChildHtml('', true) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        if ($html != '') :
+        ?>
+            <div class="promo_block">
+                <?= $html ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        ".promo_block_container": {
+            "stickyEl": {"wrapperClassName":"promo_block_container-sticky-wrapper","widthFromWrapper": false, "zIndex": "100"}
+        }
+    }
+</script>
+<script>
+    require(["jquery", "sticky"], function($) {
+        $('.promo_block_container').on('sticky-start', function() {
+            $(this).css("top", 0).addClass("active")
+            $(".navigation").height() ? $(this).css("margin-top", $(".navigation").height()) : $(this).css("margin-top", 0)
+        });
+        $('.promo_block_container').on('sticky-end', function() {
+            $(this).css("top", "-100%").removeClass("active")
+            $(".navigation").height() ? $(this).css("margin-top", $(".navigation").height()) : $(this).css("margin-top", 0)
+
+        });
+    });
+</script>

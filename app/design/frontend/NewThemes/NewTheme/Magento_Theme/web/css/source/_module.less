@@ -298,8 +298,27 @@
         }
     }
 
+    .navigatiom-wrraper {
+        display: block;
+
+        .navigation {
+            max-width: none;
+            border: 2px solid grey;
+            transition: box-shadow .4s .4s;
+            box-shadow: inset 0 0 0 grey;
+
+            &.active {
+                display: block;
+                box-shadow: inset 0 0 10px grey;
+                border: 2px solid grey;
+            }
+        }
+    }
+
     .navigation ul {
         padding: 0 8px;
+        max-width: @layout__max-width;
+        margin: 0 auto;
     }
 
     .header {

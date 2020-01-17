@@ -10,7 +10,8 @@ var config = {
   map: {
     "*": {
       stickyEl: "js/sticky.el",
-      sticky: "js/sticky"
+      sticky: "js/sticky",
+      alignItems: "js/alignItems"
     }
   }
 };
