@@ -1,0 +1,3 @@
+title,identifier,content
+Test Block,test-block,"<p>{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" title=""Product List"" show_pager=""0"" products_count=""20"" template=""Magento_CatalogWidget::product/widget/content/grid.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^]^]""}}</p>"
+promo block,promo_block,Cms Block :)
